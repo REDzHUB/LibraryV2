@@ -1321,6 +1321,7 @@ function MakeWindow(Configs)
             v.TextColor3 = Color3.fromRGB(180, 180, 180)
           end
         end
+        DefaultText.Text = OptionName
         Callback(OptionName)
         TextButton.BackgroundTransparency = 0.8
         TextButton.TextColor3 = Configs_HUB.Cor_Text
