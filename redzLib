@@ -1490,7 +1490,8 @@ function MakeWindow(Configs)
       BackgroundTransparency = 1,
       TextXAlignment = "Left",
       TextYAlignment = "Top",
-      Font = Configs_HUB.Text_Font
+      Font = Configs_HUB.Text_Font,
+      TextWrapped = true
     })TextSetColor(TextButton)
     
     local TextLabel = Create("TextLabel", Frame, {
@@ -1503,7 +1504,8 @@ function MakeWindow(Configs)
       TextColor3 = Configs_HUB.Cor_DarkText,
       TextSize = 11,
       Text = ParagraphName2,
-      Font = Configs_HUB.Text_Font
+      Font = Configs_HUB.Text_Font,
+      TextWrapped = true
     })
     return {TextButton, TextLabel}
   end
@@ -1541,3 +1543,7 @@ function MakeWindow(Configs)
   end
   return Menu
 end
+
+MakeWindow({Hub = {},Key = {Notifi = {}}})
+
+local main = MakeTab({})
