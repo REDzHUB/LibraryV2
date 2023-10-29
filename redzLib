@@ -1543,7 +1543,3 @@ function MakeWindow(Configs)
   end
   return Menu
 end
-
-MakeWindow({Hub = {},Key = {Notifi = {}}})
-
-local main = MakeTab({})
