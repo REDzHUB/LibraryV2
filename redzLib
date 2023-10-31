@@ -1334,7 +1334,7 @@ function MakeWindow(Configs)
     
     local DropOnOff = false
     TextButton.MouseButton1Click:Connect(function()
-      local OptionSize, OptionsNumber = 20, 0
+      local OptionSize, OptionsNumber = 25, 0
       for _,v in pairs(ScrollBar:GetChildren()) do
         if v:IsA("TextButton") and OptionsNumber < 5 then
           OptionsNumber = OptionsNumber + 1
