@@ -737,7 +737,7 @@ function MakeWindow(Configs)
       BackgroundTransparency = 1,
       TextXAlignment = "Left",
       Font = Configs_HUB.Text_Font
-    })TextSetColor(TextLabel)
+    })
     
     local Frame1 = Create("Frame", TextButton, {
       Size = UDim2.new(0, 25, 0, 15),
