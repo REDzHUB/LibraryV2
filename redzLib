@@ -61,8 +61,10 @@ local function CreateTween(instance, prop, value, time, tweenWait)
 end
 
 local function TextSetColor(instance)
-  instance.MouseButton1Down:Connect(function()
+  instance.MouseEnter:Connect(function()
     CreateTween(instance, "TextColor3", Color3.fromRGB(30, 140, 200), 0.4, true)
+  end)
+  instance.MouseLeave:Connect(function()
     CreateTween(instance, "TextColor3", Configs_HUB.Cor_Text, 0.4, false)
   end)
 end
@@ -677,13 +679,15 @@ function MakeWindow(Configs)
     local ButtonName = Configs.Name or "Button!!"
     local Callback = Configs.Callback or function() end
     
-    local TextButton = Create("Frame", parent, {
+    local TextButton = Create("TextButton", parent, {
       Size = UDim2.new(1, 0, 0, 25),
       BackgroundColor3 = Configs_HUB.Cor_Options,
-      Name = "Frame"
+      Name = "Frame",
+      Text = "",
+      AutoButtonColor = false
     })Corner(TextButton)Stroke(TextButton)
     
-    local TextLabel = Create("TextButton", TextButton, {
+    local TextLabel = Create("TextLabel", TextButton, {
       TextSize = 12,
       TextColor3 = Configs_HUB.Cor_Text,
       Text = ButtonName,
@@ -691,8 +695,7 @@ function MakeWindow(Configs)
       Position = UDim2.new(0, 35, 0, 0),
       BackgroundTransparency = 1,
       TextXAlignment = "Left",
-      Font = Configs_HUB.Text_Font,
-      AutoButtonColor = false
+      Font = Configs_HUB.Text_Font
     })
     
     local ImageLabel = Create("ImageLabel", TextButton, {
@@ -703,7 +706,7 @@ function MakeWindow(Configs)
       ImageColor3 = Configs_HUB.Cor_Stroke
     })
     
-    TextLabel.MouseButton1Click:Connect(function()
+    TextButton.MouseButton1Click:Connect(function()
       Callback("Click!!")
       CreateTween(ImageLabel, "ImageColor3", Color3.fromRGB(30, 140, 200), 0.2, true)
       CreateTween(ImageLabel, "ImageColor3", Configs_HUB.Cor_Stroke, 0.2, false)
@@ -717,13 +720,15 @@ function MakeWindow(Configs)
     local Default = Configs.Default or false
     local Callback = Configs.Callback or function() end
     
-    local TextButton = Create("Frame", parent, {
+    local TextButton = Create("TextButton", parent, {
       Size = UDim2.new(1, 0, 0, 25),
       BackgroundColor3 = Configs_HUB.Cor_Options,
-      Name = "Frame"
+      Name = "Frame",
+      Text = "",
+      AutoButtonColor = false
     })Corner(TextButton)Stroke(TextButton)
     
-    local TextLabel = Create("TextButton", TextButton, {
+    local TextLabel = Create("TextLabel", TextButton, {
       TextSize = 12,
       TextColor3 = Configs_HUB.Cor_Text,
       Text = ToggleName,
@@ -731,9 +736,8 @@ function MakeWindow(Configs)
       Position = UDim2.new(0, 35, 0, 0),
       BackgroundTransparency = 1,
       TextXAlignment = "Left",
-      Font = Configs_HUB.Text_Font,
-      AutoButtonColor = false
-    })
+      Font = Configs_HUB.Text_Font
+    })TextSetColor(TextLabel)
     
     local Frame1 = Create("Frame", TextButton, {
       Size = UDim2.new(0, 25, 0, 15),
@@ -758,7 +762,7 @@ function MakeWindow(Configs)
       CreateTween(TextLabel, "TextColor3", Color3.fromRGB(30, 140, 200), 0.2, false)
     end
     Callback(OnOff)
-    TextLabel.MouseButton1Click:Connect(function()
+    TextButton.MouseButton1Click:Connect(function()
       if Frame2.Position.X.Offset < 5 then
         OnOff = true
         CreateTween(Frame2, "Position", UDim2.new(0, 10, 0.5, 0), 0.2, false)
@@ -938,9 +942,17 @@ function MakeWindow(Configs)
       Callback(Value * Increase)
     end
     
-    Frame.MouseButton1Click:Connect(function()
-      local MousePos = UserInputService:GetMouseLocation().X - SavePos.AbsolutePosition.X
-      CreateTween(Slider, "Position", UDim2.new(0, MousePos, 0.5, 0), 0.5, false)
+    local MouseEnterOrLeave = false
+    Frame.MouseEnter:Connect(function()
+      MouseEnterOrLeave = true
+      while MouseEnterOrLeave do task.wait()
+        local MousePos = UserInputService:GetMouseLocation().X - SavePos.AbsolutePosition.X
+        CreateTween(Slider, "Position", UDim2.new(0, MousePos, 0.5, 0), 0.5, false)
+      end
+    end)
+    
+    Frame.MouseLeave:Connect(function()
+      MouseEnterOrLeave = false
     end)
     
     local function SliderSet(NewValue)
@@ -1232,13 +1244,15 @@ function MakeWindow(Configs)
     local Default = Configs.Default or "2"
     local Callback = Configs.Callback or function() end
     
-    local Frame = Create("Frame", parent, {
+    local TextButton = Create("TextButton", parent, {
       Size = UDim2.new(1, 0, 0, 25),
       BackgroundColor3 = Configs_HUB.Cor_Options,
-      Name = "Frame"
+      Name = "Frame",
+      Text = "",
+      AutoButtonColor = false
     })Corner(Frame)Stroke(Frame)
     
-    local TextButton = Create("TextButton", Frame, {
+    local TextLabel = Create("TextLabel", TextButton, {
       TextSize = 12,
       TextColor3 = Configs_HUB.Cor_Text,
       Text = DropdownName,
@@ -1247,10 +1261,9 @@ function MakeWindow(Configs)
       BackgroundTransparency = 1,
       TextXAlignment = "Left",
       Font = Configs_HUB.Text_Font
-    })
-    TextSetColor(TextButton)
+    })TextSetColor(TextLabel)
     
-    local Line = Create("Frame", Frame, {
+    local Line = Create("Frame", TextButton, {
       Size = UDim2.new(1, 0, 0, 1),
       Position = UDim2.new(0, 0, 0, 25),
       BorderSizePixel = 0,
@@ -1258,14 +1271,14 @@ function MakeWindow(Configs)
       Visible = false
     })
     
-    local Arrow = Create("ImageLabel", Frame, {
+    local Arrow = Create("ImageLabel", TextButton, {
       Image = "rbxassetid://6031090990",
       Size = UDim2.new(0, 25, 0, 25),
       Position = UDim2.new(0, 5, 0, 0),
       BackgroundTransparency = 1
     })
     
-    local DefaultText = Create("TextLabel", Frame, {
+    local DefaultText = Create("TextLabel", TextButton, {
       BackgroundColor3 = Configs_HUB.Cor_Hub,
       BackgroundTransparency = 0.1,
       Position = UDim2.new(1, -20, 0, 2.5),
@@ -1277,7 +1290,7 @@ function MakeWindow(Configs)
       Text = "..."
     })Corner(DefaultText)Stroke(DefaultText)
     
-    local ScrollBar = Create("ScrollingFrame", Frame, {
+    local ScrollBar = Create("ScrollingFrame", TextButton, {
       Size = UDim2.new(1, 0, 1, -25),
       Position = UDim2.new(0, 0, 0, 25),
       CanvasSize = UDim2.new(),
@@ -1342,12 +1355,12 @@ function MakeWindow(Configs)
         end
       end
       if not DropOnOff then
-        CreateTween(Frame, "Size", UDim2.new(1, 0, 0, OptionSize), 0.3, false)
+        CreateTween(TextButton, "Size", UDim2.new(1, 0, 0, OptionSize), 0.3, false)
         CreateTween(Arrow, "Rotation", 180, 0.3, false)
         DropOnOff = true
         Line.Visible = true
       else
-        CreateTween(Frame, "Size", UDim2.new(1, 0, 0, 25), 0.3, false)
+        CreateTween(TextButton, "Size", UDim2.new(1, 0, 0, 25), 0.3, false)
         CreateTween(Arrow, "Rotation", 0, 0.3, true)
         DropOnOff = false
         Line.Visible = false
