@@ -943,14 +943,13 @@ function MakeWindow(Configs)
     end
     
     local MouseEnterOrLeave = false
-    Frame.MouseEnter:Connect(function()
+    Frame.Mouse1Down:Connect(function()
       MouseEnterOrLeave = true
       while MouseEnterOrLeave do task.wait()
         local MousePos = UserInputService:GetMouseLocation().X - SavePos.AbsolutePosition.X
-        CreateTween(Slider, "Position", UDim2.new(0, MousePos, 0.5, 0), 0.5, false)
+        Slider.Position = UDim2.new(0, MousePos, 0.5, 0)
       end
     end)
-    
     Frame.MouseLeave:Connect(function()
       MouseEnterOrLeave = false
     end)
