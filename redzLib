@@ -943,7 +943,7 @@ function MakeWindow(Configs)
     end
     
     local MouseEnterOrLeave = false
-    Frame.Mouse1Down:Connect(function()
+    Frame.MouseButton1Down:Connect(function()
       MouseEnterOrLeave = true
       while MouseEnterOrLeave do task.wait()
         local MousePos = UserInputService:GetMouseLocation().X - SavePos.AbsolutePosition.X
