@@ -897,8 +897,7 @@ function MakeWindow(Configs)
       BackgroundTransparency = 1,
       TextXAlignment = "Left",
       Font = Configs_HUB.Text_Font
-    })
-    TextSetColor(TextLabel)
+    })TextSetColor(TextLabel)
     
     local TextLabelNumber = Create("TextLabel", Frame, {
       Font = Configs_HUB.Text_Font,
@@ -938,7 +937,11 @@ function MakeWindow(Configs)
     })Corner(SliderBar2)
     
     local function UpdCounter(Value)
-      TextLabelNumber.Text = tostring(Value * Increase)
+      local String = tostring(Value * Increase)
+      if string.find(String, ".") then
+        String = String:sub(1, 5)
+      end
+      TextLabelNumber.Text = String
       Callback(Value * Increase)
     end
     
